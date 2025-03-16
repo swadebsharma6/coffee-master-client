@@ -18,7 +18,7 @@ const Signin = () => {
 
         const loginInfo = { email, lastSignInTime };
 
-        fetch(`http://localhost:5000/users/`,{
+        fetch(`http://localhost:5000/users`,{
           method: 'PATCH',
           headers:{
             'content-type': 'application/json'
