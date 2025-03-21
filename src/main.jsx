@@ -11,6 +11,12 @@ import Main from "./components/Main.jsx";
 import AuthProvider from "./Providers/AuthProvider.jsx";
 import Users from "./components/Users.jsx";
 
+import {
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+import UsersTrans from "./components/UsersTrans.jsx";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -19,7 +25,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <App></App>,
-        loader: () => fetch(`http://localhost:5000/coffee`),
+        loader: () => fetch(`https://coffee-store-server-pi-woad.vercel.app/coffee`),
       },
       {
         path: "/addCoffee",
@@ -29,7 +35,7 @@ const router = createBrowserRouter([
         path: "updateCoffee/:id",
         element: <UpdateCoffee></UpdateCoffee>,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/coffee/${params.id}`),
+          fetch(`https://coffee-store-server-pi-woad.vercel.app/coffee/${params.id}`),
       },
       {
         path: "/signin",
@@ -40,18 +46,27 @@ const router = createBrowserRouter([
         element: <Signup></Signup>,
       },
       {
+        path: '/users2',
+        element: <UsersTrans/>
+      },
+      {
         path: "/users",
         element: <Users></Users>,
-        loader: ()=> fetch(`http://localhost:5000/users`)
+        loader: () => fetch(`https://coffee-store-server-pi-woad.vercel.app/users`),
       },
     ],
   },
 ]);
 
+// Create a client
+const queryClient = new QueryClient()
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </QueryClientProvider>
   </StrictMode>
 );

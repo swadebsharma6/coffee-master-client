@@ -20,7 +20,7 @@ const Signin = () => {
         const loginInfo = { email, lastSignInTime };
 
         // Using Axios
-        axios.patch(`http://localhost:5000/users`, loginInfo)
+        axios.patch(`https://coffee-store-server-pi-woad.vercel.app/users`, loginInfo)
         .then(data =>{
           if(data.data.modifiedCount > 0){
                   Swal.fire({
@@ -33,7 +33,7 @@ const Signin = () => {
                 }
         })
 
-        // fetch(`http://localhost:5000/users`,{
+        // fetch(`https://coffee-store-server-pi-woad.vercel.app/users`,{
         //   method: 'PATCH',
         //   headers:{
         //     'content-type': 'application/json'

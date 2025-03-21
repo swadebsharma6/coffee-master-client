@@ -18,7 +18,7 @@ const Signup = () => {
         const createdAt = result.user.metadata.creationTime;
         const newUser = { name, email, createdAt };
 
-        axios.post(`http://localhost:5000/users`, newUser)
+        axios.post(`https://coffee-store-server-pi-woad.vercel.app/users`, newUser)
         .then((data) => {
           if(data.data.insertedId){
             alert("User Created successfully");
@@ -26,7 +26,7 @@ const Signup = () => {
         });
 
         // save new user to database
-        // fetch(`http://localhost:5000/users`, {
+        // fetch(`https://coffee-store-server-pi-woad.vercel.app/users`, {
         //   method: "POST",
         //   headers: {
         //     "content-type": "application/json",
