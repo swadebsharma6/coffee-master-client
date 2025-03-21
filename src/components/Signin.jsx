@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../Providers/AuthProvider";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const Signin = () => {
   const { signInUser } = useContext(AuthContext);
@@ -18,26 +19,40 @@ const Signin = () => {
 
         const loginInfo = { email, lastSignInTime };
 
-        fetch(`http://localhost:5000/users`,{
-          method: 'PATCH',
-          headers:{
-            'content-type': 'application/json'
-          },
-          body: JSON.stringify(loginInfo)
+        // Using Axios
+        axios.patch(`http://localhost:5000/users`, loginInfo)
+        .then(data =>{
+          if(data.data.modifiedCount > 0){
+                  Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "User Login successfully & saved",
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+                }
         })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-            if(data.modifiedCount > 0){
-              Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "User Login successfully & saved",
-                showConfirmButton: false,
-                timer: 1500
-              });
-            }
-          });
+
+        // fetch(`http://localhost:5000/users`,{
+        //   method: 'PATCH',
+        //   headers:{
+        //     'content-type': 'application/json'
+        //   },
+        //   body: JSON.stringify(loginInfo)
+        // })
+        //   .then((res) => res.json())
+        //   .then((data) => {
+        //     console.log(data);
+        //     if(data.modifiedCount > 0){
+        //       Swal.fire({
+        //         position: "top-end",
+        //         icon: "success",
+        //         title: "User Login successfully & saved",
+        //         showConfirmButton: false,
+        //         timer: 1500
+        //       });
+        //     }
+          // });
       })
       .catch((error) => {
         console.log(error.message);

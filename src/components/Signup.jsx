@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../Providers/AuthProvider";
+import axios from "axios";
 
 const Signup = () => {
   const { createUser } = useContext(AuthContext);
@@ -15,22 +16,30 @@ const Signup = () => {
         const user = result.user;
         console.log("new user", user);
         const createdAt = result.user.metadata.creationTime;
-        const newUser ={name, email, createdAt}
-      // save new user to database
-      fetch(`https://coffee-store-server-pi-woad.vercel.app/users`, {
-            method: 'POST',
-            headers:{
-                  'content-type': 'application/json'
-            },
-            body: JSON.stringify(newUser)
-      })
-      .then(res => res.json())
-      .then(data => {
-            console.log(data)
-            if(data.insertedId){
-                  alert('User Created successfully')
-            }
-      })
+        const newUser = { name, email, createdAt };
+
+        axios.post(`http://localhost:5000/users`, newUser)
+        .then((data) => {
+          if(data.data.insertedId){
+            alert("User Created successfully");
+          }
+        });
+
+        // save new user to database
+        // fetch(`http://localhost:5000/users`, {
+        //   method: "POST",
+        //   headers: {
+        //     "content-type": "application/json",
+        //   },
+        //   body: JSON.stringify(newUser),
+        // })
+        //   .then((res) => res.json())
+        //   .then((data) => {
+        //     console.log(data);
+        //     if (data.insertedId) {
+        //       alert("User Created successfully");
+        //     }
+        //   });
       })
       .catch((error) => {
         console.log(error.message);
